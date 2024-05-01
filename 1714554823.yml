@@ -2,7 +2,7 @@ blueprint:
   name: Test Jeroen
   domain: automation
   input:
-    light_target:
+    light:
       name: Lamp
       selector:
         target:
