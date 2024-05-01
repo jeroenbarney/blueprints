@@ -6,7 +6,6 @@ blueprint:
         device:
           multiple: true
       name: Lamp
-      required: true
 action:
   - choose:
       - conditions:
