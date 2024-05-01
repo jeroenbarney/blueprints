@@ -1,0 +1,25 @@
+blueprint:
+  name: Test Jeroen
+  input:
+    light:
+      selector:
+        device:
+          multiple: true
+      name: Lamp
+      required: true
+action:
+  - choose:
+      - conditions:
+          - type: is_motion
+            condition: device
+            device_id: e182c5c9eac0c2054827920f0d26a6fb
+            entity_id: 8443775cb92985f6d5d9306bf087d8d8
+            domain: binary_sensor
+        sequence:
+          - type: turn_on
+            device_id: 6c2550594d38e15ccbf9193c25d03c77
+            entity_id: 81f841f7b4c71254a9538a842c9d9d5a
+            domain: light
+            brightness_pct: 50
+mode: restart
+icon: mdi:motion-sensor
