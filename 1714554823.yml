@@ -2,23 +2,47 @@ blueprint:
   name: Test Jeroen
   domain: automation
   input:
-    light:
+    light_target:
+      name: Lamp
+      selector:
+        target:
+          entity:
+            domain: light
+    motion:
+      name: Motion
       selector:
         device:
-          multiple: true
-      name: Lamp
+          multiple: false
+mode: restart
+trigger:
+  - platform: event
+    event_type: zha_event
+    event_data:
+      device_id: !input motion
 action:
   - choose:
       - conditions:
           - type: is_motion
             condition: device
-            device_id: e182c5c9eac0c2054827920f0d26a6fb
-            entity_id: 8443775cb92985f6d5d9306bf087d8d8
+            entity_id: !input light
             domain: binary_sensor
         sequence:
-          - type: turn_on
-            device_id: 6c2550594d38e15ccbf9193c25d03c77
-            entity_id: 81f841f7b4c71254a9538a842c9d9d5a
-            domain: light
-            brightness_pct: 50
-mode: restart
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              device_id: 6c2550594d38e15ccbf9193c25d03c77
+      - conditions:
+          - type: is_no_motion
+            condition: device
+            entity_id: !input light
+            domain: binary_sensor
+            for:
+              hours: 0
+              minutes: 2
+              seconds: 0
+        sequence:
+          - service: light.turn_off
+            target:
+              device_id: 6c2550594d38e15ccbf9193c25d03c77
+            data: {}
