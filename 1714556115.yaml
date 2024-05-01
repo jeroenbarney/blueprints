@@ -1,0 +1,48 @@
+blueprint:
+  name: test
+  domain: automation
+  input:
+    light:
+      selector:
+        target: {}
+      name: Lamp
+    motion:
+      selector:
+        device: {}
+      name: Bewegingssensor
+mode: restart
+trigger:
+  - type: motion
+    platform: device
+    entity_id: !input motion
+    domain: binary_sensor
+action:
+  - choose:
+      - conditions:
+          - type: is_motion
+            condition: device
+            device_id: e182c5c9eac0c2054827920f0d26a6fb
+            entity_id: 8443775cb92985f6d5d9306bf087d8d8
+            domain: binary_sensor
+        sequence:
+          - service: light.turn_on
+            metadata: {}
+            data: {}
+            target:
+              area_id: werkkamer_jeroen
+      - conditions:
+          - type: is_no_motion
+            condition: device
+            device_id: e182c5c9eac0c2054827920f0d26a6fb
+            entity_id: 8443775cb92985f6d5d9306bf087d8d8
+            domain: binary_sensor
+            for:
+              hours: 0
+              minutes: 2
+              seconds: 0
+        sequence:
+          - service: light.turn_off
+            target:
+              area_id:
+                - werkkamer_jeroen
+            data: {}
