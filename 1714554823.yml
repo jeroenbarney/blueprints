@@ -22,4 +22,3 @@ action:
             domain: light
             brightness_pct: 50
 mode: restart
-icon: mdi:motion-sensor
